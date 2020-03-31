@@ -1,0 +1,315 @@
+{
+    "comments": "Request handler for `POST /api/mock-api-employee/employees`",
+    "input": [
+        {
+            "name": "employee",
+            "type": "model",
+            "required": true,
+            "allowNull": false,
+            "reference": "io.toro.mock.employee.model.Employee"
+        }
+    ],
+    "output": [
+        {
+            "name": "responseCode",
+            "type": "integer",
+            "defaultValue": 201
+        },
+        {
+            "name": "APIResponse",
+            "type": "model",
+            "reference": "io.toro.mock.employee.model.APIResponse",
+            "gloopProperties": [
+                {
+                    "name": "employee",
+                    "type": "model",
+                    "reference": "io.toro.mock.employee.model.Employee",
+                    "gloopProperties": [
+                        {
+                            "name": "id"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "steps": [
+        {
+            "type": "block",
+            "blockType": "TRY_CATCH",
+            "children": [
+                {
+                    "declare": [
+                        {
+                            "variables": [
+                                {
+                                    "name": "id"
+                                }
+                            ]
+                        }
+                    ],
+                    "lines": [
+                        {
+                            "type": "set",
+                            "expression": "UUID.randomUUID()",
+                            "evaluate": true,
+                            "to": [
+                                "id"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "invokeGloop",
+                    "comments": "Insert the employee in the database",
+                    "name": "io.toro.mock.employee.sql.InsertEmployee",
+                    "inputs": [
+                        {
+                            "from": [
+                                "employee",
+                                "firstName"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "firstName"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "lastName"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "lastName"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "email"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "email"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "phoneNumber"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "phoneNumber"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "jobTitle"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "jobTitle"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "jobDescription"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "jobDescription"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "jobSalary"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "jobSalary"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "employmentHireDate"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "employmentHireDate"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "employmentStartDate"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "employmentStartDate"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "employee",
+                                "employmentEndDate"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "employmentEndDate"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "id"
+                            ],
+                            "to": [
+                                "insertEmployeeInput",
+                                "id"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "mock_employee_api",
+                            "to": [
+                                "insertEmployeeInput",
+                                "$martiniConnectionPool"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "false",
+                            "to": [
+                                "insertEmployeeInput",
+                                "$getGeneratedKeys"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "comments": "Map the inserted employee to response and set the response to OK",
+                    "lines": [
+                        {
+                            "from": [
+                                "employee"
+                            ],
+                            "to": [
+                                "APIResponse",
+                                "employee"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "id"
+                            ],
+                            "to": [
+                                "APIResponse",
+                                "employee",
+                                "id"
+                            ],
+                            "priority": 1
+                        },
+                        {
+                            "type": "set",
+                            "expression": "SUCCESS",
+                            "to": [
+                                "APIResponse",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "\"Successfully added employee.\"",
+                            "evaluate": true,
+                            "to": [
+                                "APIResponse",
+                                "message"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "201",
+                            "evaluate": true,
+                            "to": [
+                                "responseCode"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "catch": [
+                {
+                    "type": "invokeCode",
+                    "comments": "Log any exception thrown by the service in the console; set the response code to 500 and return the exception's message.",
+                    "className": "io.toro.martini.LoggerMethods",
+                    "methodName": "error",
+                    "parameters": [
+                        "java.lang.String",
+                        "java.lang.Throwable"
+                    ],
+                    "inputs": [
+                        {
+                            "from": [
+                                "$gloopException",
+                                "realException"
+                            ],
+                            "to": [
+                                "throwable"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "$gloopException",
+                                "gloopStackTrace"
+                            ],
+                            "to": [
+                                "message"
+                            ]
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "from": [
+                                "output"
+                            ],
+                            "to": [
+                                "APIResponse",
+                                "message"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "ERROR",
+                            "to": [
+                                "APIResponse",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "500",
+                            "evaluate": true,
+                            "to": [
+                                "responseCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "enabled": false,
+                            "expression": "",
+                            "evaluate": true,
+                            "to": [
+                                "APIResponse"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

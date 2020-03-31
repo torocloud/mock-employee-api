@@ -1,0 +1,294 @@
+{
+    "comments": "Request handler for `GET /api/mock-api-employee/employees/{id}`",
+    "input": [
+        {
+            "name": "employeeId",
+            "required": true,
+            "allowNull": false
+        }
+    ],
+    "output": [
+        {
+            "name": "employee",
+            "type": "model",
+            "reference": "io.toro.mock.employee.model.Employee",
+            "gloopProperties": [
+                {
+                    "name": "id"
+                }
+            ]
+        },
+        {
+            "name": "responseCode",
+            "type": "integer",
+            "defaultValue": 200
+        },
+        {
+            "name": "APIResponse",
+            "type": "model",
+            "reference": "io.toro.mock.employee.model.APIResponse"
+        }
+    ],
+    "steps": [
+        {
+            "type": "block",
+            "blockType": "TRY_CATCH",
+            "children": [
+                {
+                    "type": "invokeGloop",
+                    "comments": "Fetch the employee with the given id from the database",
+                    "name": "io.toro.mock.employee.sql.SelectEmployee",
+                    "inputs": [
+                        {
+                            "from": [
+                                "employeeId"
+                            ],
+                            "to": [
+                                "selectEmployeeInput",
+                                "id"
+                            ]
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "ID"
+                            ],
+                            "to": [
+                                "employee",
+                                "id"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "FIRST_NAME"
+                            ],
+                            "to": [
+                                "employee",
+                                "firstName"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "LAST_NAME"
+                            ],
+                            "to": [
+                                "employee",
+                                "lastName"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "EMAIL"
+                            ],
+                            "to": [
+                                "employee",
+                                "email"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "PHONE_NUMBER"
+                            ],
+                            "to": [
+                                "employee",
+                                "phoneNumber"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "JOB_TITLE"
+                            ],
+                            "to": [
+                                "employee",
+                                "jobTitle"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "JOB_DESCRIPTION"
+                            ],
+                            "to": [
+                                "employee",
+                                "jobDescription"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "JOB_SALARY"
+                            ],
+                            "to": [
+                                "employee",
+                                "jobSalary"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "EMPLOYMENT_HIRE_DATE"
+                            ],
+                            "to": [
+                                "employee",
+                                "employmentHireDate"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "EMPLOYMENT_START_DATE"
+                            ],
+                            "to": [
+                                "employee",
+                                "employmentStartDate"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "selectEmployeeOutput",
+                                "EMPLOYMENT_END_DATE"
+                            ],
+                            "to": [
+                                "employee",
+                                "employmentEndDate"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "200",
+                            "to": [
+                                "responseCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "SUCCESS",
+                            "to": [
+                                "APIResponse",
+                                "result"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "fork",
+                    "comments": "Does the employee with the given id exist?",
+                    "expression": "employee?.id",
+                    "children": [
+                        {
+                            "type": "invokeCode",
+                            "label": "$null",
+                            "comments": "If not, log a message and set the response to 404",
+                            "className": "io.toro.martini.LoggerMethods",
+                            "methodName": "error",
+                            "parameters": [
+                                "java.lang.String"
+                            ],
+                            "inputs": [
+                                {
+                                    "type": "set",
+                                    "expression": "\"Employee with id '$employeeId' doesn't exist.\"",
+                                    "evaluate": true,
+                                    "to": [
+                                        "message"
+                                    ]
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "from": [
+                                        "output"
+                                    ],
+                                    "to": [
+                                        "APIResponse",
+                                        "message"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "ERROR",
+                                    "to": [
+                                        "APIResponse",
+                                        "result"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "404",
+                                    "to": [
+                                        "responseCode"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "catch": [
+                {
+                    "type": "invokeCode",
+                    "comments": "Log any exception thrown by the service in the console; set the response code to 500 and return the exception's message.",
+                    "className": "io.toro.martini.LoggerMethods",
+                    "methodName": "error",
+                    "parameters": [
+                        "java.lang.String",
+                        "java.lang.Throwable"
+                    ],
+                    "inputs": [
+                        {
+                            "from": [
+                                "$gloopException",
+                                "realException"
+                            ],
+                            "to": [
+                                "throwable"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "$gloopException",
+                                "gloopStackTrace"
+                            ],
+                            "to": [
+                                "message"
+                            ]
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "type": "set",
+                            "expression": "ERROR",
+                            "to": [
+                                "APIResponse",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "$gloopException.message",
+                            "evaluate": true,
+                            "to": [
+                                "APIResponse",
+                                "message"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "500",
+                            "to": [
+                                "responseCode"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

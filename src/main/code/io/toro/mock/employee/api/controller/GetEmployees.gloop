@@ -1,0 +1,331 @@
+{
+    "comments": "Request handler for `GET /api/mock-api-employee/employees`",
+    "input": [
+        {
+            "name": "limit",
+            "type": "integer"
+        }
+    ],
+    "output": [
+        {
+            "name": "employees",
+            "type": "model",
+            "array": true,
+            "reference": "io.toro.mock.employee.model.Employee",
+            "gloopProperties": [
+                {
+                    "name": "id"
+                }
+            ]
+        },
+        {
+            "name": "responseCode",
+            "type": "integer",
+            "defaultValue": 200
+        },
+        {
+            "name": "APIResponse",
+            "type": "model",
+            "reference": "io.toro.mock.employee.model.APIResponse"
+        }
+    ],
+    "steps": [
+        {
+            "type": "block",
+            "blockType": "TRY_CATCH",
+            "children": [
+                {
+                    "type": "invokeGloop",
+                    "comments": "Fetch all the employees in the database, the $limit param limits the results",
+                    "name": "io.toro.mock.employee.sql.SelectEmployees",
+                    "declare": [
+                        {
+                            "variables": [
+                                {
+                                    "name": "inputCursor",
+                                    "type": "model",
+                                    "array": true,
+                                    "gloopProperties": [
+                                        {
+                                            "name": "ID",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "FIRST_NAME",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "LAST_NAME",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "EMAIL",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "PHONE_NUMBER",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "JOB_TITLE",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "JOB_DESCRIPTION",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "JOB_SALARY",
+                                            "type": "bigDecimal",
+                                            "required": true,
+                                            "allowNull": false
+                                        },
+                                        {
+                                            "name": "EMPLOYMENT_HIRE_DATE",
+                                            "type": "date",
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "EMPLOYMENT_START_DATE",
+                                            "type": "date",
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "EMPLOYMENT_END_DATE",
+                                            "type": "date",
+                                            "required": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "inputs": [
+                        {
+                            "from": [
+                                "limit"
+                            ],
+                            "to": [
+                                "selectEmployeesInput",
+                                "$limit"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "mock_employee_api",
+                            "to": [
+                                "selectEmployeesInput",
+                                "$martiniConnectionPool"
+                            ]
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "from": [
+                                "selectEmployeesInputCursor"
+                            ],
+                            "to": [
+                                "inputCursor"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "iterate",
+                    "comments": "Map the input cursor to employees model array",
+                    "input": {
+                        "path": [
+                            "inputCursor"
+                        ]
+                    },
+                    "output": {
+                        "path": [
+                            "employees"
+                        ]
+                    },
+                    "children": [
+                        {
+                            "lines": [
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "FIRST_NAME"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "firstName"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "LAST_NAME"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "lastName"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "EMAIL"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "email"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "PHONE_NUMBER"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "phoneNumber"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "ID"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "id"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "JOB_TITLE"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "jobTitle"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "JOB_DESCRIPTION"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "jobDescription"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "JOB_SALARY"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "jobSalary"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "EMPLOYMENT_HIRE_DATE"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "employmentHireDate"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "EMPLOYMENT_START_DATE"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "employmentStartDate"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
+                                        "EMPLOYMENT_END_DATE"
+                                    ],
+                                    "to": [
+                                        "employees",
+                                        "employmentEndDate"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "catch": [
+                {
+                    "type": "invokeCode",
+                    "comments": "Log any exception thrown by the service in the console; set the response code to 500 and return the exception's message.",
+                    "className": "io.toro.martini.LoggerMethods",
+                    "methodName": "error",
+                    "parameters": [
+                        "java.lang.String",
+                        "java.lang.Throwable"
+                    ],
+                    "inputs": [
+                        {
+                            "from": [
+                                "$gloopException",
+                                "realException"
+                            ],
+                            "to": [
+                                "throwable"
+                            ]
+                        },
+                        {
+                            "from": [
+                                "$gloopException",
+                                "gloopStackTrace"
+                            ],
+                            "to": [
+                                "message"
+                            ]
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "type": "set",
+                            "expression": "ERROR",
+                            "to": [
+                                "APIResponse",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "$gloopException.message",
+                            "evaluate": true,
+                            "to": [
+                                "APIResponse",
+                                "message"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "500",
+                            "to": [
+                                "responseCode"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

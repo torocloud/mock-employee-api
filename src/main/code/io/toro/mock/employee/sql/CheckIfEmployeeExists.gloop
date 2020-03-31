@@ -1,0 +1,34 @@
+{
+    "type": "customSql",
+    "input": [
+        {
+            "name": "checkIfEmployeeExistsInput",
+            "type": "model",
+            "gloopProperties": [
+                {
+                    "name": "$martiniConnectionPool"
+                },
+                {
+                    "name": "id",
+                    "type": "object"
+                }
+            ]
+        }
+    ],
+    "output": [
+        {
+            "name": "checkIfEmployeeExistsOutput",
+            "type": "model",
+            "gloopProperties": [
+                {
+                    "name": "exists",
+                    "type": "bigDecimal",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "connectionPoolName": "mock_employee_api",
+    "sqlType": "SELECT_SINGLE",
+    "query": "SELECT 1 as \"exists\"\nFROM\n\t\"EMPLOYEES\"\nWHERE \"ID\" = :id"
+}

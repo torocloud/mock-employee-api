@@ -1,0 +1,60 @@
+{
+    "type": "customSql",
+    "input": [
+        {
+            "name": "updateEmployeeInput",
+            "type": "model",
+            "gloopProperties": [
+                {
+                    "name": "$martiniConnectionPool"
+                },
+                {
+                    "name": "firstName"
+                },
+                {
+                    "name": "lastName"
+                },
+                {
+                    "name": "email"
+                },
+                {
+                    "name": "phoneNumber"
+                },
+                {
+                    "name": "jobTitle"
+                },
+                {
+                    "name": "jobDescription"
+                },
+                {
+                    "name": "jobSalary",
+                    "type": "bigDecimal"
+                },
+                {
+                    "name": "employmentHireDate",
+                    "type": "date"
+                },
+                {
+                    "name": "employmentStartDate",
+                    "type": "date"
+                },
+                {
+                    "name": "employmentEndDate",
+                    "type": "date"
+                },
+                {
+                    "name": "id"
+                }
+            ]
+        }
+    ],
+    "output": [
+        {
+            "name": "updateCount",
+            "type": "integer"
+        }
+    ],
+    "connectionPoolName": "mock_employee_api",
+    "sqlType": "UPDATE",
+    "query": "UPDATE \"EMPLOYEES\"\nSET\n\t\"FIRST_NAME\" = COALESCE( :firstName, \"FIRST_NAME\" ),\n    \"LAST_NAME\" = COALESCE( :lastName, \"LAST_NAME\" ),\n    \"EMAIL\" = COALESCE( :email, \"EMAIL\" ),\n    \"PHONE_NUMBER\" = COALESCE( :phoneNumber, \"PHONE_NUMBER\" ),\n    \"JOB_TITLE\" = COALESCE( :jobTitle, \"JOB_TITLE\" ),\n    \"JOB_DESCRIPTION\" = COALESCE( :jobDescription, \"JOB_DESCRIPTION\" ),\n    \"JOB_SALARY\" = COALESCE( :jobSalary, \"JOB_SALARY\" ),\n    \"EMPLOYMENT_HIRE_DATE\" = COALESCE( :employmentHireDate, \"EMPLOYMENT_HIRE_DATE\" ),\n    \"EMPLOYMENT_START_DATE\"= COALESCE( :employmentStartDate, \"EMPLOYMENT_START_DATE\" ),\n    \"EMPLOYMENT_END_DATE\" = COALESCE( :employmentEndDate, \"EMPLOYMENT_END_DATE\" )\nWHERE\n\t\"ID\" = :id"
+}

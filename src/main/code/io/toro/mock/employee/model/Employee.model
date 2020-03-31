@@ -1,0 +1,41 @@
+{
+    "name": "Employee",
+    "type": "model",
+    "allowExtraProperties": true,
+    "gloopProperties": [
+        {
+            "name": "firstName"
+        },
+        {
+            "name": "lastName"
+        },
+        {
+            "name": "email"
+        },
+        {
+            "name": "phoneNumber"
+        },
+        {
+            "name": "jobTitle"
+        },
+        {
+            "name": "jobDescription"
+        },
+        {
+            "name": "jobSalary",
+            "type": "bigDecimal"
+        },
+        {
+            "name": "employmentHireDate",
+            "type": "long"
+        },
+        {
+            "name": "employmentStartDate",
+            "type": "long"
+        },
+        {
+            "name": "employmentEndDate",
+            "type": "long"
+        }
+    ]
+}

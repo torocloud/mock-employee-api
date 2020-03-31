@@ -1,0 +1,70 @@
+{
+    "type": "customSql",
+    "input": [
+        {
+            "name": "insertEmployeeInput",
+            "type": "model",
+            "gloopProperties": [
+                {
+                    "name": "$martiniConnectionPool"
+                },
+                {
+                    "name": "$getGeneratedKeys",
+                    "type": "boolean",
+                    "defaultValue": false
+                },
+                {
+                    "name": "id"
+                },
+                {
+                    "name": "firstName"
+                },
+                {
+                    "name": "lastName"
+                },
+                {
+                    "name": "email"
+                },
+                {
+                    "name": "phoneNumber"
+                },
+                {
+                    "name": "jobTitle"
+                },
+                {
+                    "name": "jobDescription"
+                },
+                {
+                    "name": "jobSalary",
+                    "type": "bigDecimal"
+                },
+                {
+                    "name": "employmentHireDate",
+                    "type": "date"
+                },
+                {
+                    "name": "employmentStartDate",
+                    "type": "date"
+                },
+                {
+                    "name": "employmentEndDate",
+                    "type": "date"
+                }
+            ]
+        }
+    ],
+    "output": [
+        {
+            "name": "updateCount",
+            "type": "integer"
+        },
+        {
+            "name": "generatedKeys",
+            "type": "model",
+            "allowExtraProperties": true
+        }
+    ],
+    "connectionPoolName": "mock_employee_api",
+    "sqlType": "INSERT",
+    "query": "INSERT INTO \"EMPLOYEES\" (\n\t\"ID\",\n    \"FIRST_NAME\",\n    \"LAST_NAME\",\n    \"EMAIL\",\n    \"PHONE_NUMBER\",\n    \"JOB_TITLE\",\n    \"JOB_DESCRIPTION\",\n    \"JOB_SALARY\",\n    \"EMPLOYMENT_HIRE_DATE\",\n    \"EMPLOYMENT_START_DATE\",\n    \"EMPLOYMENT_END_DATE\"\n)\nVALUES (\n\t:id,\n    :firstName,\n    :lastName,\n    :email,\n    :phoneNumber,\n    :jobTitle,\n    :jobDescription,\n    :jobSalary,\n    :employmentHireDate,\n    :employmentStartDate,\n    :employmentEndDate\n)"
+}

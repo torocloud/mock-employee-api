@@ -1,0 +1,186 @@
+{
+    "info": {
+        "title": "Mock Employee API",
+        "description": "This is a non-production employees REST API server, it aims to be used for mocking or testing APIs. ",
+        "contact": {
+            "name": "TORO Cloud",
+            "url": "https://support.torocloud.com"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0.0-SNAPSHOT"
+    },
+    "basePath": "/mock-employee-api",
+    "paths": {
+        "/employees": {
+            "description": "Base endpoint for managing and listing the employees",
+            "get": {
+                "tags": [
+                    "Employee"
+                ],
+                "description": "Returns a list of all employees stored in the database",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "type": "QUERY",
+                        "description": "Limits the listed employees"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "body": "employees",
+                        "description": "List of all employees"
+                    }
+                },
+                "operationType": "gloop",
+                "operationLocation": "io.toro.mock.employee.api.controller.GetEmployees",
+                "responseCodeField": "responseCode"
+            },
+            "post": {
+                "tags": [
+                    "Employee"
+                ],
+                "description": "Adds a employee to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "bodyParameter": {
+                    "name": "employee",
+                    "description": "employee"
+                },
+                "responses": {
+                    "201": {
+                        "body": "APIResponse",
+                        "description": "Message returned when a employee is successfully added"
+                    }
+                },
+                "operationType": "gloop",
+                "operationLocation": "io.toro.mock.employee.api.controller.AddEmployee",
+                "responseCodeField": "responseCode"
+            }
+        },
+        "/employees/{employeeId}": {
+            "description": "Endpoint for managing and fetching a employees",
+            "get": {
+                "tags": [
+                    "Employee"
+                ],
+                "description": "Returns a single employee",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "employeeId",
+                        "type": "PATH",
+                        "description": "The ID of the employee to find"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "body": "employee",
+                        "description": "Represents a employee"
+                    },
+                    "404": {
+                        "body": "APIResponse",
+                        "description": "Message returned when a employee requested is not existing"
+                    }
+                },
+                "operationType": "gloop",
+                "operationLocation": "io.toro.mock.employee.api.controller.GetEmployee",
+                "responseCodeField": "responseCode"
+            },
+            "delete": {
+                "tags": [
+                    "Employee"
+                ],
+                "description": "Deletes a single employee",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "employeeId",
+                        "type": "PATH",
+                        "description": "The ID of the employee to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "body": "APIResponse",
+                        "description": "Message returned when a employee is successfully deleted"
+                    },
+                    "404": {
+                        "body": "APIResponse",
+                        "description": "Message returned when a employee requested is not existing"
+                    }
+                },
+                "operationType": "gloop",
+                "operationLocation": "io.toro.mock.employee.api.controller.DeleteEmployee",
+                "responseCodeField": "responseCode"
+            },
+            "patch": {
+                "tags": [
+                    "Employee"
+                ],
+                "description": "Updates a single employee",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "employeeId",
+                        "type": "PATH",
+                        "description": "The ID of the employee to updated"
+                    }
+                ],
+                "bodyParameter": {
+                    "name": "employee",
+                    "description": "employee"
+                },
+                "responses": {
+                    "200": {
+                        "body": "APIResponse",
+                        "description": "The updated employee values"
+                    },
+                    "404": {
+                        "body": "APIResponse",
+                        "description": "Message returned when a employee requested is not existing"
+                    }
+                },
+                "operationType": "gloop",
+                "operationLocation": "io.toro.mock.employee.api.controller.UpdateEmployee",
+                "responseCodeField": "responseCode"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Employee",
+            "description": "The API for managing and listing employees.",
+            "externalDocumentation": {
+                "url": "https://docs.torocloud.com/",
+                "description": "The documentation site of Martini."
+            }
+        }
+    ],
+    "externalDocumentation": {
+        "url": "http://example.com",
+        "description": "This is a non-production employees REST API server, it aims to be used for mocking or testing APIs. "
+    }
+}

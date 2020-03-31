@@ -1,0 +1,86 @@
+{
+    "type": "customSql",
+    "input": [
+        {
+            "name": "selectEmployeesInput",
+            "type": "model",
+            "gloopProperties": [
+                {
+                    "name": "$martiniConnectionPool"
+                },
+                {
+                    "name": "$limit",
+                    "type": "integer"
+                }
+            ]
+        }
+    ],
+    "output": [
+        {
+            "name": "selectEmployeesInputCursor",
+            "type": "model",
+            "array": true,
+            "gloopProperties": [
+                {
+                    "name": "ID",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "FIRST_NAME",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "LAST_NAME",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "EMAIL",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "PHONE_NUMBER",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "JOB_TITLE",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "JOB_DESCRIPTION",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "JOB_SALARY",
+                    "type": "bigDecimal",
+                    "required": true,
+                    "allowNull": false
+                },
+                {
+                    "name": "EMPLOYMENT_HIRE_DATE",
+                    "type": "date",
+                    "required": true
+                },
+                {
+                    "name": "EMPLOYMENT_START_DATE",
+                    "type": "date",
+                    "required": true
+                },
+                {
+                    "name": "EMPLOYMENT_END_DATE",
+                    "type": "date",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "connectionPoolName": "mock_employee_api",
+    "sqlType": "SELECT_MULTI",
+    "query": "SELECT *\nFROM\n    \"EMPLOYEES\""
+}
