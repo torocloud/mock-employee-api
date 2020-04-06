@@ -1,4 +1,4 @@
-<package stateOnStartup="unloaded" id="mock-employee-api" version="1.0.0-SNAPSHOT" context-path="/mock-employee-api">
+<package stateOnStartup="unloaded" id="mock-employee-api" version="1.0.0" context-path="/mock-employee-api">
   <package-dependencies/>
   <startup-services>
     <startup-service>gloop:io.toro.mock.employee.config.CreateDatabaseConnection/io.toro.mock.employee.config.CreateDatabaseConnection</startup-service>
