@@ -1,7 +1,13 @@
 {
+    "authTypes": [
+        "BASIC"
+    ],
+    "groups": [
+        "ESBAPIAdminGroup"
+    ],
     "info": {
         "title": "Mock Employee API",
-        "description": "This is a non-production employees REST API server, it aims to be used for mocking or testing APIs. ",
+        "description": "This is a non-production employees REST API server, it aims to be used for mocking or testing APIs. \n\n### Sending Authenticated Requests\n\nYou can use your ECC account to send authenticated request to the API. Your ECC credentials must be sent in the `Authorization` header in the HTTP request\n\n#### To authenticate a request with basic authentication\n\n1. Combine your email and password with a colon (`:`). e.g. `jdoe@mailinator.com:pa$$w0rd`\n2. Encode the resulting string in Base64\n3. Include an Authorization header in the HTTP request containing the base64-encoded string. Example: ```\nAuthorization: Basic amRvZUBtYWlsaW5hdG9yLmNvbTpwYSQkdzByZA==```",
         "contact": {
             "name": "TORO Cloud",
             "url": "https://support.torocloud.com"
@@ -19,6 +25,7 @@
                 "tags": [
                     "Employee"
                 ],
+                "summary": "Get a list of all employees in the mock employee api",
                 "description": "Returns a list of all employees stored in the database",
                 "produces": [
                     "application/json",
@@ -33,8 +40,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "body": "employees",
-                        "description": "List of all employees"
+                        "body": "APIResponse",
+                        "description": "List of all employees",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"message\": \"Successfully retrieved employees.\",\n    \"employees\": [\n        {\n            \"firstName\": \"Terrance\",\n            \"lastName\": \"Follitt\",\n            \"email\": \"tfollittg@mlb.com\",\n            \"phoneNumber\": \"tfollittg@opensource.org\",\n            \"jobTitle\": \"Electrical Engineer\",\n            \"jobDescription\": \"Support\",\n            \"jobSalary\": 422.45,\n            \"employmentHireDate\": 1540080000000,\n            \"employmentStartDate\": 1575331200000,\n            \"employmentEndDate\": 1578528000000,\n            \"id\": \"26960f80-e611-4d43-931d-6f76c6cdf5ff\"\n        },\n        {\n            \"firstName\": \"Harland\",\n            \"lastName\": \"Digwood\",\n            \"email\": \"hdigwood1@un.org\",\n            \"phoneNumber\": \"hdigwood1@youku.com\",\n            \"jobTitle\": \"Compensation Analyst\",\n            \"jobDescription\": \"Business Development\",\n            \"jobSalary\": 525.77,\n            \"employmentHireDate\": 1540080000000,\n            \"employmentStartDate\": 1575331200000,\n            \"employmentEndDate\": 1584576000000,\n            \"id\": \"296a9110-0e7d-4f3b-8166-19be883b353d\"\n        }\n    ]\n}"
+                        }
+                    },
+                    "500": {
+                        "body": "APIException",
+                        "description": "If the server encountered an error while processing the request",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 500,\n    \"message\": \"Encountered an exception while processing the request.\"\n}"
+                        }
                     }
                 },
                 "operationType": "gloop",
@@ -45,7 +64,8 @@
                 "tags": [
                     "Employee"
                 ],
-                "description": "Adds a employee to the database",
+                "summary": "Creates a new employee record in the mock employee api",
+                "description": "Adds an employee to the database",
                 "consumes": [
                     "application/json"
                 ],
@@ -60,7 +80,27 @@
                 "responses": {
                     "201": {
                         "body": "APIResponse",
-                        "description": "Message returned when a employee is successfully added"
+                        "description": "Message returned when a employee is successfully added",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"message\": \"Successfully added employee.\",\n    \"employees\": {\n        \"firstName\": \"Terrance\",\n        \"lastName\": \"Follitt\",\n        \"email\": \"tfollittg@mlb.com\",\n        \"phoneNumber\": \"tfollittg@opensource.org\",\n        \"jobTitle\": \"Electrical Engineer\",\n        \"jobDescription\": \"Support\",\n        \"jobSalary\": 422.45,\n        \"employmentHireDate\": 1540080000000,\n        \"employmentStartDate\": 1575331200000,\n        \"employmentEndDate\": 1578528000000,\n        \"id\": \"26960f80-e611-4d43-931d-6f76c6cdf5ff\"\n    }\n}"
+                        }
+                    },
+                    "400": {
+                        "body": "APIException",
+                        "description": "If the employee failed to be created",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 400,\n    \"message\": \"Failed to create employee. Check Martini logs for more details.\"\n}"
+                        }
+                    },
+                    "500": {
+                        "body": "APIException",
+                        "description": "If the server encounters an exception while processing the request",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 500,\n    \"message\": \"Encountered an exception while processing the request.\"\n}"
+                        }
                     }
                 },
                 "operationType": "gloop",
@@ -74,6 +114,7 @@
                 "tags": [
                     "Employee"
                 ],
+                "summary": "Retrieve a single employee record in the mock employee api",
                 "description": "Returns a single employee",
                 "produces": [
                     "application/json",
@@ -88,12 +129,28 @@
                 ],
                 "responses": {
                     "200": {
-                        "body": "employee",
-                        "description": "Represents a employee"
+                        "body": "APIResponse",
+                        "description": "Represents a employee",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"message\": \"Successfully fetched employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff.\",\n    \"employees\": {\n        \"firstName\": \"Terrance\",\n        \"lastName\": \"Follitt\",\n        \"email\": \"tfollittg@mlb.com\",\n        \"phoneNumber\": \"tfollittg@opensource.org\",\n        \"jobTitle\": \"Electrical Engineer\",\n        \"jobDescription\": \"Support\",\n        \"jobSalary\": 422.45,\n        \"employmentHireDate\": 1540080000000,\n        \"employmentStartDate\": 1575331200000,\n        \"employmentEndDate\": 1578528000000,\n        \"id\": \"26960f80-e611-4d43-931d-6f76c6cdf5ff\"\n    }\n}"
+                        }
                     },
                     "404": {
-                        "body": "APIResponse",
-                        "description": "Message returned when a employee requested is not existing"
+                        "body": "APIException",
+                        "description": "Message returned when a employee requested is not existing",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 404,\n    \"message\": \"Employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff doesn't exist.\"\n}"
+                        }
+                    },
+                    "500": {
+                        "body": "APIException",
+                        "description": "If the server encountered an exception while processing the request",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 5000,\n    \"message\": \"Encountered an exception while processing the request.\"\n}"
+                        }
                     }
                 },
                 "operationType": "gloop",
@@ -104,6 +161,7 @@
                 "tags": [
                     "Employee"
                 ],
+                "summary": "Removes an employee record to mock employee api",
                 "description": "Deletes a single employee",
                 "produces": [
                     "application/json",
@@ -119,11 +177,27 @@
                 "responses": {
                     "200": {
                         "body": "APIResponse",
-                        "description": "Message returned when a employee is successfully deleted"
+                        "description": "Message returned when a employee is successfully deleted",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"message\": \"Employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff has been deleted.\"\n}"
+                        }
                     },
                     "404": {
-                        "body": "APIResponse",
-                        "description": "Message returned when a employee requested is not existing"
+                        "body": "APIException",
+                        "description": "Message returned when a employee requested is not existing",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"httpErrorcode\": 500,\n    \"message\": \"Employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff doesn't exist.\"\n}"
+                        }
+                    },
+                    "500": {
+                        "body": "APIException",
+                        "description": "When the server encounters an exception while processing the request",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 500,\n    \"message\": \"Encountered an exception while processing the request.\"\n}"
+                        }
                     }
                 },
                 "operationType": "gloop",
@@ -134,6 +208,7 @@
                 "tags": [
                     "Employee"
                 ],
+                "summary": "Updates an employee record in the mock employee api",
                 "description": "Updates a single employee",
                 "consumes": [
                     "application/json"
@@ -156,11 +231,27 @@
                 "responses": {
                     "200": {
                         "body": "APIResponse",
-                        "description": "The updated employee values"
+                        "description": "The updated employee values",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"SUCCESS\",\n    \"message\": \"Employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff has been updated.\",\n    \"employees\": {\n        \"firstName\": \"Terrance\",\n        \"lastName\": \"Follitt\",\n        \"email\": \"tfollittg@mlb.com\",\n        \"phoneNumber\": \"tfollittg@opensource.org\",\n        \"jobTitle\": \"Electrical Engineer\",\n        \"jobDescription\": \"Support\",\n        \"jobSalary\": 422.45,\n        \"employmentHireDate\": 1540080000000,\n        \"employmentStartDate\": 1575331200000,\n        \"employmentEndDate\": 1578528000000,\n        \"id\": \"26960f80-e611-4d43-931d-6f76c6cdf5ff\"\n    }\n}"
+                        }
                     },
                     "404": {
-                        "body": "APIResponse",
-                        "description": "Message returned when a employee requested is not existing"
+                        "body": "APIException",
+                        "description": "Message returned when a employee requested is not existing",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 404,\n    \"message\": \"Employee with id 26960f80-e611-4d43-931d-6f76c6cdf5ff doesn't exist.\"\n}"
+                        }
+                    },
+                    "500": {
+                        "body": "APIException",
+                        "description": "If the server encountered an exception while processing the request.",
+                        "responseBodyMockData": {
+                            "mockDataType": "JSON",
+                            "mockData": "{\n    \"result\": \"ERROR\",\n    \"httpErrorCode\": 500,\n    \"message\": \"Encountered an exception while processing the request\"\n}"
+                        }
                     }
                 },
                 "operationType": "gloop",

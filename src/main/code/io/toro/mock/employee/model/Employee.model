@@ -4,38 +4,48 @@
     "allowExtraProperties": true,
     "gloopProperties": [
         {
-            "name": "firstName"
+            "name": "firstName",
+            "comments": "The first name of the employee"
         },
         {
-            "name": "lastName"
+            "name": "lastName",
+            "comments": "The last name of the employee"
         },
         {
-            "name": "email"
+            "name": "email",
+            "comments": "Email address of the employee"
         },
         {
-            "name": "phoneNumber"
+            "name": "phoneNumber",
+            "comments": "Employee phone number"
         },
         {
-            "name": "jobTitle"
+            "name": "jobTitle",
+            "comments": "The employee's job position"
         },
         {
-            "name": "jobDescription"
+            "name": "jobDescription",
+            "comments": "Details about the employee's job"
         },
         {
             "name": "jobSalary",
-            "type": "bigDecimal"
+            "type": "bigDecimal",
+            "comments": "The employee salary"
         },
         {
             "name": "employmentHireDate",
-            "type": "long"
+            "type": "long",
+            "comments": "Employee hire date in Unix Timestamp"
         },
         {
             "name": "employmentStartDate",
-            "type": "long"
+            "type": "long",
+            "comments": "Employee start date in Unix Timestamp"
         },
         {
             "name": "employmentEndDate",
-            "type": "long"
+            "type": "long",
+            "comments": "Employee end date in Unix Timestamp"
         }
     ]
 }

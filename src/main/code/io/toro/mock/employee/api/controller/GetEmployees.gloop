@@ -8,17 +8,6 @@
     ],
     "output": [
         {
-            "name": "employees",
-            "type": "model",
-            "array": true,
-            "reference": "io.toro.mock.employee.model.Employee",
-            "gloopProperties": [
-                {
-                    "name": "id"
-                }
-            ]
-        },
-        {
             "name": "responseCode",
             "type": "integer",
             "defaultValue": 200
@@ -26,7 +15,25 @@
         {
             "name": "APIResponse",
             "type": "model",
-            "reference": "io.toro.mock.employee.model.APIResponse"
+            "reference": "io.toro.mock.employee.model.APIResponse",
+            "gloopProperties": [
+                {
+                    "name": "employees",
+                    "type": "model",
+                    "array": true,
+                    "reference": "io.toro.mock.employee.model.Employee",
+                    "gloopProperties": [
+                        {
+                            "name": "id"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "APIException",
+            "type": "model",
+            "reference": "io.toro.martini.api.APIException"
         }
     ],
     "steps": [
@@ -147,6 +154,7 @@
                     },
                     "output": {
                         "path": [
+                            "APIResponse",
                             "employees"
                         ]
                     },
@@ -156,9 +164,21 @@
                                 {
                                     "from": [
                                         "inputCursor",
+                                        "ID"
+                                    ],
+                                    "to": [
+                                        "APIResponse",
+                                        "employees",
+                                        "id"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "inputCursor",
                                         "FIRST_NAME"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "firstName"
                                     ]
@@ -169,6 +189,7 @@
                                         "LAST_NAME"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "lastName"
                                     ]
@@ -179,6 +200,7 @@
                                         "EMAIL"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "email"
                                     ]
@@ -189,18 +211,9 @@
                                         "PHONE_NUMBER"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "phoneNumber"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "inputCursor",
-                                        "ID"
-                                    ],
-                                    "to": [
-                                        "employees",
-                                        "id"
                                     ]
                                 },
                                 {
@@ -209,6 +222,7 @@
                                         "JOB_TITLE"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "jobTitle"
                                     ]
@@ -219,6 +233,7 @@
                                         "JOB_DESCRIPTION"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "jobDescription"
                                     ]
@@ -229,6 +244,7 @@
                                         "JOB_SALARY"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "jobSalary"
                                     ]
@@ -239,6 +255,7 @@
                                         "EMPLOYMENT_HIRE_DATE"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "employmentHireDate"
                                     ]
@@ -249,6 +266,7 @@
                                         "EMPLOYMENT_START_DATE"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "employmentStartDate"
                                     ]
@@ -259,8 +277,25 @@
                                         "EMPLOYMENT_END_DATE"
                                     ],
                                     "to": [
+                                        "APIResponse",
                                         "employees",
                                         "employmentEndDate"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "SUCCESS",
+                                    "to": [
+                                        "APIResponse",
+                                        "result"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "Successfully retrieved employees.",
+                                    "to": [
+                                        "APIResponse",
+                                        "message"
                                     ]
                                 }
                             ]
@@ -321,6 +356,30 @@
                             "expression": "500",
                             "to": [
                                 "responseCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "ERROR",
+                            "to": [
+                                "APIException",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "500",
+                            "to": [
+                                "APIException",
+                                "httpErrorCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "Encountered an exception while processing the request.",
+                            "to": [
+                                "APIException",
+                                "message"
                             ]
                         }
                     ]

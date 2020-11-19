@@ -21,9 +21,28 @@
             "defaultValue": 200
         },
         {
+            "name": "APIException",
+            "type": "model",
+            "reference": "io.toro.martini.api.APIException"
+        },
+        {
             "name": "APIResponse",
             "type": "model",
-            "reference": "io.toro.mock.employee.model.APIResponse"
+            "reference": "io.toro.mock.employee.model.APIResponse",
+            "gloopProperties": [
+                {
+                    "name": "employee",
+                    "type": "model",
+                    "allowNull": false,
+                    "reference": "io.toro.mock.employee.model.Employee",
+                    "allowExtraProperties": true,
+                    "gloopProperties": [
+                        {
+                            "name": "id"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "steps": [
@@ -84,152 +103,180 @@
                     "expression": "employeeExists",
                     "children": [
                         {
-                            "type": "invokeGloop",
+                            "type": "block",
                             "label": "true",
-                            "comments": "If true, update the employee accordingly in the database and set the response to OK",
-                            "name": "io.toro.mock.employee.sql.UpdateEmployee",
-                            "inputs": [
+                            "children": [
                                 {
-                                    "from": [
-                                        "employeeId"
+                                    "type": "invokeGloop",
+                                    "comments": "If true, update the employee accordingly in the database and set the response to OK",
+                                    "name": "io.toro.mock.employee.sql.UpdateEmployee",
+                                    "inputs": [
+                                        {
+                                            "from": [
+                                                "employeeId"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "id"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "firstName"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "firstName"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "lastName"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "lastName"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "email"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "email"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "jobTitle"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "jobTitle"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "phoneNumber"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "phoneNumber"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "jobDescription"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "jobDescription"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "jobSalary"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "jobSalary"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "employmentHireDate"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "employmentHireDate"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "employmentStartDate"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "employmentStartDate"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employee",
+                                                "employmentEndDate"
+                                            ],
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "employmentEndDate"
+                                            ]
+                                        },
+                                        {
+                                            "type": "set",
+                                            "expression": "mock_employee_api",
+                                            "to": [
+                                                "updateEmployeeInput",
+                                                "$martiniConnectionPool"
+                                            ]
+                                        }
                                     ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "id"
+                                    "outputs": [
+                                        {
+                                            "type": "set",
+                                            "expression": "200",
+                                            "to": [
+                                                "responseCode"
+                                            ]
+                                        },
+                                        {
+                                            "type": "set",
+                                            "expression": "SUCCESS",
+                                            "to": [
+                                                "APIResponse",
+                                                "result"
+                                            ]
+                                        },
+                                        {
+                                            "type": "set",
+                                            "expression": "\"Employee with id '$employeeId' has been updated.\"",
+                                            "evaluate": true,
+                                            "to": [
+                                                "APIResponse",
+                                                "message"
+                                            ]
+                                        }
                                     ]
                                 },
                                 {
-                                    "from": [
-                                        "employee",
-                                        "firstName"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "firstName"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "lastName"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "lastName"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "email"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "email"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "jobTitle"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "jobTitle"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "phoneNumber"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "phoneNumber"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "jobDescription"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "jobDescription"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "jobSalary"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "jobSalary"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "employmentHireDate"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "employmentHireDate"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "employmentStartDate"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "employmentStartDate"
-                                    ]
-                                },
-                                {
-                                    "from": [
-                                        "employee",
-                                        "employmentEndDate"
-                                    ],
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "employmentEndDate"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "mock_employee_api",
-                                    "to": [
-                                        "updateEmployeeInput",
-                                        "$martiniConnectionPool"
-                                    ]
-                                }
-                            ],
-                            "outputs": [
-                                {
-                                    "type": "set",
-                                    "expression": "200",
-                                    "to": [
-                                        "responseCode"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "SUCCESS",
-                                    "to": [
-                                        "APIResponse",
-                                        "result"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "\"Employee with id '$employeeId' has been updated.\"",
-                                    "evaluate": true,
-                                    "to": [
-                                        "APIResponse",
-                                        "message"
+                                    "lines": [
+                                        {
+                                            "from": [
+                                                "employee"
+                                            ],
+                                            "to": [
+                                                "APIResponse",
+                                                "employee"
+                                            ]
+                                        },
+                                        {
+                                            "from": [
+                                                "employeeId"
+                                            ],
+                                            "to": [
+                                                "APIResponse",
+                                                "employee",
+                                                "id"
+                                            ]
+                                        }
                                     ]
                                 }
                             ]
@@ -255,15 +302,6 @@
                             ],
                             "outputs": [
                                 {
-                                    "from": [
-                                        "output"
-                                    ],
-                                    "to": [
-                                        "APIResponse",
-                                        "message"
-                                    ]
-                                },
-                                {
                                     "type": "set",
                                     "expression": "ERROR",
                                     "to": [
@@ -276,6 +314,31 @@
                                     "expression": "404",
                                     "to": [
                                         "responseCode"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "output"
+                                    ],
+                                    "to": [
+                                        "APIException",
+                                        "message"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "ERROR",
+                                    "to": [
+                                        "APIException",
+                                        "result"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "404",
+                                    "to": [
+                                        "APIException",
+                                        "httpErrorCode"
                                     ]
                                 }
                             ]
@@ -315,23 +378,6 @@
                     ],
                     "outputs": [
                         {
-                            "from": [
-                                "output"
-                            ],
-                            "to": [
-                                "APIResponse",
-                                "message"
-                            ]
-                        },
-                        {
-                            "type": "set",
-                            "expression": "ERROR",
-                            "to": [
-                                "APIResponse",
-                                "result"
-                            ]
-                        },
-                        {
                             "type": "set",
                             "expression": "500",
                             "evaluate": true,
@@ -345,6 +391,30 @@
                             "evaluate": true,
                             "to": [
                                 "APIResponse"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "ERROR",
+                            "to": [
+                                "APIException",
+                                "result"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "Encountered an exception while processing the request.",
+                            "to": [
+                                "APIException",
+                                "message"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "500",
+                            "to": [
+                                "APIException",
+                                "httpErrorCode"
                             ]
                         }
                     ]

@@ -14,6 +14,11 @@
             "defaultValue": 200
         },
         {
+            "name": "APIException",
+            "type": "model",
+            "reference": "io.toro.martini.api.APIException"
+        },
+        {
             "name": "APIResponse",
             "type": "model",
             "reference": "io.toro.mock.employee.model.APIResponse"
@@ -148,27 +153,35 @@
                             ],
                             "outputs": [
                                 {
-                                    "from": [
-                                        "output"
-                                    ],
+                                    "type": "set",
+                                    "expression": "404",
                                     "to": [
-                                        "APIResponse",
-                                        "message"
+                                        "responseCode"
                                     ]
                                 },
                                 {
                                     "type": "set",
                                     "expression": "ERROR",
                                     "to": [
-                                        "APIResponse",
+                                        "APIException",
                                         "result"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "output"
+                                    ],
+                                    "to": [
+                                        "APIException",
+                                        "message"
                                     ]
                                 },
                                 {
                                     "type": "set",
                                     "expression": "404",
                                     "to": [
-                                        "responseCode"
+                                        "APIException",
+                                        "httpErrorCode"
                                     ]
                                 }
                             ]
@@ -209,26 +222,33 @@
                     "outputs": [
                         {
                             "type": "set",
-                            "expression": "ERROR",
+                            "expression": "500",
                             "to": [
-                                "APIResponse",
-                                "result"
+                                "responseCode"
                             ]
                         },
                         {
                             "type": "set",
-                            "expression": "$gloopException.message",
-                            "evaluate": true,
+                            "expression": "ERROR",
                             "to": [
-                                "APIResponse",
-                                "message"
+                                "APIException",
+                                "result"
                             ]
                         },
                         {
                             "type": "set",
                             "expression": "500",
                             "to": [
-                                "responseCode"
+                                "APIException",
+                                "httpErrorCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "Encountered an exception while processing the request.",
+                            "to": [
+                                "APIException",
+                                "message"
                             ]
                         }
                     ]
