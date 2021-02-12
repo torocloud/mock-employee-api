@@ -16,7 +16,7 @@
             "defaultValue": 201
         },
         {
-            "name": "APIResponse",
+            "name": "response",
             "type": "model",
             "reference": "io.toro.mock.employee.model.APIResponse",
             "gloopProperties": [
@@ -33,7 +33,7 @@
             ]
         },
         {
-            "name": "APIException",
+            "name": "exception",
             "type": "model",
             "reference": "io.toro.martini.api.APIException"
         }
@@ -225,32 +225,6 @@
                             "comments": "Map the inserted employee to response and set the response to OK",
                             "lines": [
                                 {
-                                    "from": [
-                                        "employee"
-                                    ],
-                                    "to": [
-                                        "APIResponse",
-                                        "employee"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "SUCCESS",
-                                    "to": [
-                                        "APIResponse",
-                                        "result"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "\"Successfully added employee.\"",
-                                    "evaluate": true,
-                                    "to": [
-                                        "APIResponse",
-                                        "message"
-                                    ]
-                                },
-                                {
                                     "type": "set",
                                     "expression": "201",
                                     "evaluate": true,
@@ -259,29 +233,46 @@
                                     ]
                                 },
                                 {
+                                    "type": "set",
+                                    "expression": "Successfully added employee.",
+                                    "to": [
+                                        "response",
+                                        "message"
+                                    ]
+                                },
+                                {
+                                    "from": [
+                                        "employee"
+                                    ],
+                                    "to": [
+                                        "response",
+                                        "employee"
+                                    ]
+                                },
+                                {
                                     "from": [
                                         "id"
                                     ],
                                     "to": [
-                                        "APIResponse",
+                                        "response",
                                         "employee",
                                         "id"
                                     ],
                                     "priority": 1
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "SUCCESS",
+                                    "to": [
+                                        "response",
+                                        "result"
+                                    ]
                                 }
                             ]
                         },
                         {
                             "label": "false",
                             "lines": [
-                                {
-                                    "type": "set",
-                                    "expression": "ERROR",
-                                    "to": [
-                                        "APIException",
-                                        "result"
-                                    ]
-                                },
                                 {
                                     "type": "set",
                                     "expression": "400",
@@ -291,9 +282,17 @@
                                 },
                                 {
                                     "type": "set",
+                                    "expression": "ERROR",
+                                    "to": [
+                                        "exception",
+                                        "result"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
                                     "expression": "400",
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "httpErrorCode"
                                     ]
                                 },
@@ -301,7 +300,7 @@
                                     "type": "set",
                                     "expression": "Failed to create employee. Check Martini logs for more details.",
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "message"
                                     ]
                                 }
@@ -351,18 +350,9 @@
                         },
                         {
                             "type": "set",
-                            "enabled": false,
-                            "expression": "",
-                            "evaluate": true,
-                            "to": [
-                                "APIResponse"
-                            ]
-                        },
-                        {
-                            "type": "set",
                             "expression": "ERROR",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "result"
                             ]
                         },
@@ -370,15 +360,15 @@
                             "type": "set",
                             "expression": "500",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "httpErrorCode"
                             ]
                         },
                         {
                             "type": "set",
-                            "expression": "Encountered an exception while processing the request",
+                            "expression": "Encountered an exception while processing the request.",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "message"
                             ]
                         }

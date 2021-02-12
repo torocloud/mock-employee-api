@@ -21,12 +21,7 @@
             "defaultValue": 200
         },
         {
-            "name": "APIException",
-            "type": "model",
-            "reference": "io.toro.martini.api.APIException"
-        },
-        {
-            "name": "APIResponse",
+            "name": "response",
             "type": "model",
             "reference": "io.toro.mock.employee.model.APIResponse",
             "gloopProperties": [
@@ -43,6 +38,11 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "exception",
+            "type": "model",
+            "reference": "io.toro.martini.api.APIException"
         }
     ],
     "steps": [
@@ -239,19 +239,19 @@
                                         },
                                         {
                                             "type": "set",
-                                            "expression": "SUCCESS",
+                                            "expression": "\"Employee with id ${employeeId} has been updated.\"",
+                                            "evaluate": true,
                                             "to": [
-                                                "APIResponse",
-                                                "result"
+                                                "response",
+                                                "message"
                                             ]
                                         },
                                         {
                                             "type": "set",
-                                            "expression": "\"Employee with id '$employeeId' has been updated.\"",
-                                            "evaluate": true,
+                                            "expression": "SUCCESS",
                                             "to": [
-                                                "APIResponse",
-                                                "message"
+                                                "response",
+                                                "result"
                                             ]
                                         }
                                     ]
@@ -263,7 +263,7 @@
                                                 "employee"
                                             ],
                                             "to": [
-                                                "APIResponse",
+                                                "response",
                                                 "employee"
                                             ]
                                         },
@@ -272,10 +272,11 @@
                                                 "employeeId"
                                             ],
                                             "to": [
-                                                "APIResponse",
+                                                "response",
                                                 "employee",
                                                 "id"
-                                            ]
+                                            ],
+                                            "priority": 1
                                         }
                                     ]
                                 }
@@ -303,14 +304,6 @@
                             "outputs": [
                                 {
                                     "type": "set",
-                                    "expression": "ERROR",
-                                    "to": [
-                                        "APIResponse",
-                                        "result"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
                                     "expression": "404",
                                     "to": [
                                         "responseCode"
@@ -321,24 +314,24 @@
                                         "output"
                                     ],
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "message"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "ERROR",
-                                    "to": [
-                                        "APIException",
-                                        "result"
                                     ]
                                 },
                                 {
                                     "type": "set",
                                     "expression": "404",
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "httpErrorCode"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
+                                    "expression": "ERROR",
+                                    "to": [
+                                        "exception",
+                                        "result"
                                     ]
                                 }
                             ]
@@ -387,34 +380,26 @@
                         },
                         {
                             "type": "set",
-                            "expression": "",
-                            "evaluate": true,
-                            "to": [
-                                "APIResponse"
-                            ]
-                        },
-                        {
-                            "type": "set",
                             "expression": "ERROR",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "result"
-                            ]
-                        },
-                        {
-                            "type": "set",
-                            "expression": "Encountered an exception while processing the request.",
-                            "to": [
-                                "APIException",
-                                "message"
                             ]
                         },
                         {
                             "type": "set",
                             "expression": "500",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "httpErrorCode"
+                            ]
+                        },
+                        {
+                            "type": "set",
+                            "expression": "Encountered an exception while processing the request.",
+                            "to": [
+                                "exception",
+                                "message"
                             ]
                         }
                     ]

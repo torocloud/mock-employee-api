@@ -14,14 +14,14 @@
             "defaultValue": 200
         },
         {
-            "name": "APIException",
-            "type": "model",
-            "reference": "io.toro.martini.api.APIException"
-        },
-        {
-            "name": "APIResponse",
+            "name": "response",
             "type": "model",
             "reference": "io.toro.mock.employee.model.APIResponse"
+        },
+        {
+            "name": "exception",
+            "type": "model",
+            "reference": "io.toro.martini.api.APIException"
         }
     ],
     "steps": [
@@ -108,26 +108,26 @@
                             "outputs": [
                                 {
                                     "type": "set",
+                                    "expression": "200",
+                                    "to": [
+                                        "responseCode"
+                                    ]
+                                },
+                                {
+                                    "type": "set",
                                     "expression": "SUCCESS",
                                     "to": [
-                                        "APIResponse",
+                                        "response",
                                         "result"
                                     ]
                                 },
                                 {
                                     "type": "set",
-                                    "expression": "\"Employee with id '$employeeId' has been deleted.\"",
+                                    "expression": "\"Employee with id ${employeeId} has been deleted.\"",
                                     "evaluate": true,
                                     "to": [
-                                        "APIResponse",
+                                        "response",
                                         "message"
-                                    ]
-                                },
-                                {
-                                    "type": "set",
-                                    "expression": "200",
-                                    "to": [
-                                        "responseCode"
                                     ]
                                 }
                             ]
@@ -144,7 +144,7 @@
                             "inputs": [
                                 {
                                     "type": "set",
-                                    "expression": "\"Employee with id '$employeeId' doesn't exist.\"",
+                                    "expression": "\"Employee with id ${employeeId} doesn't exist.\"",
                                     "evaluate": true,
                                     "to": [
                                         "message"
@@ -163,7 +163,7 @@
                                     "type": "set",
                                     "expression": "ERROR",
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "result"
                                     ]
                                 },
@@ -172,7 +172,7 @@
                                         "output"
                                     ],
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "message"
                                     ]
                                 },
@@ -180,7 +180,7 @@
                                     "type": "set",
                                     "expression": "404",
                                     "to": [
-                                        "APIException",
+                                        "exception",
                                         "httpErrorCode"
                                     ]
                                 }
@@ -231,7 +231,7 @@
                             "type": "set",
                             "expression": "ERROR",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "result"
                             ]
                         },
@@ -239,7 +239,7 @@
                             "type": "set",
                             "expression": "500",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "httpErrorCode"
                             ]
                         },
@@ -247,7 +247,7 @@
                             "type": "set",
                             "expression": "Encountered an exception while processing the request.",
                             "to": [
-                                "APIException",
+                                "exception",
                                 "message"
                             ]
                         }

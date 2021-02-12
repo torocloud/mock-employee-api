@@ -40,7 +40,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "body": "APIResponse",
+                        "body": "response",
                         "description": "List of all employees",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -48,7 +48,7 @@
                         }
                     },
                     "500": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "If the server encountered an error while processing the request",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -79,7 +79,7 @@
                 },
                 "responses": {
                     "201": {
-                        "body": "APIResponse",
+                        "body": "response",
                         "description": "Message returned when a employee is successfully added",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -87,7 +87,7 @@
                         }
                     },
                     "400": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "If the employee failed to be created",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -95,7 +95,7 @@
                         }
                     },
                     "500": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "If the server encounters an exception while processing the request",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -129,7 +129,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "body": "APIResponse",
+                        "body": "response",
                         "description": "Represents a employee",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -137,7 +137,7 @@
                         }
                     },
                     "404": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "Message returned when a employee requested is not existing",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -145,7 +145,7 @@
                         }
                     },
                     "500": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "If the server encountered an exception while processing the request",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -176,7 +176,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "body": "APIResponse",
+                        "body": "response",
                         "description": "Message returned when a employee is successfully deleted",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -184,7 +184,7 @@
                         }
                     },
                     "404": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "Message returned when a employee requested is not existing",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -192,7 +192,7 @@
                         }
                     },
                     "500": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "When the server encounters an exception while processing the request",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -230,7 +230,7 @@
                 },
                 "responses": {
                     "200": {
-                        "body": "APIResponse",
+                        "body": "response",
                         "description": "The updated employee values",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -238,7 +238,7 @@
                         }
                     },
                     "404": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "Message returned when a employee requested is not existing",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
@@ -246,7 +246,7 @@
                         }
                     },
                     "500": {
-                        "body": "APIException",
+                        "body": "exception",
                         "description": "If the server encountered an exception while processing the request.",
                         "responseBodyMockData": {
                             "mockDataType": "JSON",
